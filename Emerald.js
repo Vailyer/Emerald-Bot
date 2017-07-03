@@ -1,6 +1,9 @@
 //Importing Discord.JS module
 const Discord = require('discord.js');
 
+//Important moment.js module
+const moment = require('moment');
+
 //Creating new Discord client instance.
 const client = new Discord.Client();
 
@@ -39,17 +42,40 @@ client.on("message", message => {
     }
   }
 });
-
+//Welcome Message and Log
 // Create an event listener for new guild members
 client.on('guildMemberAdd', member => {
   const channel = member.guild.channels.find('name', 'general');
-  channel.send("Welcome to the server, ${member}");
+  channel.send(`Welcome to the server, ${member}`);
   const logchannel = member.guild.channels.find('name', 'member-log');
   // Do nothing if the channel wasn't found on this server
   if (!channel) return;
-  // Send the message, mentioning the member
-  var joindate = Date.now()
-  logchannel.send("``` ${member} joined On: " + joindate + "```");
+  // Send the message, mentioning the member and getting the current date 
+  //Using moment.js
+  var joindate = moment().format('MMMM Do YYYY, h:mm:ss a');
+  //Making an embeded data table for the log channel
+  logchannel.send({embed: {
+  color: 0x118211,
+  description: `:inbox_tray: **${member.user.tag}** has \`joined\` on: ${joindate}`
+  }});
+});
+
+//Exit Message and log
+// Create an event listener for guild members leaving
+client.on('guildMemberRemove', member => {
+  const channel = member.guild.channels.find('name', 'general');
+  channel.send(`${member}, left the server!`);
+  const logchannel = member.guild.channels.find('name', 'member-log');
+  // Do nothing if the channel wasn't found on this server
+  if (!channel) return;
+  // Send the message, mentioning the member and getting the current date 
+  //Using moment.js
+  var leavedate = moment().format('MMMM Do YYYY, h:mm:ss a');
+  //Making an embeded data table for the log channel
+  logchannel.send({embed: {
+  color: 0xff0209,
+  description: `:outbox_tray:  **${member.user.tag}** has \`left\` on: ${leavedate}`
+  }});
 });
 
 
