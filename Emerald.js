@@ -88,8 +88,8 @@ client.on('message', msg => {
 
 //!avatar will reply a link to the users avatar
 client.on('message', msg => {
-  if (msg.content === '!avatar') {
-    msg.reply(msg.author.avatarURL);
+  if (msg.content.startsWith('!avatar')) {
+    msg.reply(msg.mentions.users.first() .avatarURL);
   }
 });
 
@@ -107,6 +107,12 @@ client.on("message", function(msg) {
   }
 });
 
+//!help will provide the user a list of available commands  
+client.on("message", function(msg) {
+  if(msg.content === "!help"){
+    msg.reply(help);
+  }
+});
 
 
 
