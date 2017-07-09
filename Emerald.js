@@ -46,7 +46,7 @@ client.on('guildMemberAdd', member => {
 client.on('guildMemberRemove', member => {
   const channel = member.guild.channels.find('name', 'general');
   channel.send(`${member}, left the server!`);
-  const logchannel = member.guild.channels.find('name', 'member-log');
+  var logchannel = member.guild.channels.find('name', 'member-log');
   // Do nothing if the channel wasn't found on this server
   if (!channel) return;
   // Send the message, mentioning the member and getting the current date 
@@ -56,6 +56,14 @@ client.on('guildMemberRemove', member => {
   logchannel.send({embed: {
   color: 0xff0209,
   description: `:outbox_tray:  **${member.user.tag}** has \`left\` on: ${leavedate}`
+  }});
+});
+
+client.on('guildMemberUpdate',(oldMember, newMember) => {
+  var logchannel = oldMember.guild.channels.find('name', 'member-log');
+  logchannel.send({embed: {
+  color: 0x588ade,
+  description: `**${oldMember.user.tag}** has changed their name to **${newMember}**`
   }});
 });
 
