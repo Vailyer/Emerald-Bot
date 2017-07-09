@@ -23,25 +23,6 @@ function clean(text) {
       return text;
 }
 
-//The actual eval command / code
-client.on("message", message => {
-  const args = message.content.split(" ").slice(1);
-
-  if (message.content.startsWith("/eval")) {
-    if(message.author.id !== config.ownerID) return;
-    try {
-      const code = args.join(" ");
-      let evaled = eval(code);
-
-      if (typeof evaled !== "string")
-        evaled = require("util").inspect(evaled);
-
-      message.channel.send(clean(evaled), {code:"xl"});
-    } catch (err) {
-      message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-    }
-  }
-});
 //Welcome Message and Log
 // Create an event listener for new guild members
 client.on('guildMemberAdd', member => {
@@ -78,42 +59,52 @@ client.on('guildMemberRemove', member => {
   }});
 });
 
-
-//!ping will reply pong 
+//Creating one event listener for all messages to stop memory leak.
 client.on('message', msg => {
+  //creating args constant for eval command
+  const args = msg.content.split(" ").slice(1);
+
+  //!ping will reply pong 
   if (msg.content === '!ping') {
     msg.reply('pong!');
   }
-});
 
-//!avatar will reply a link to the users avatar
-client.on('message', msg => {
-  if (msg.content.startsWith('!avatar')) {
+  //!avatar will reply a link to the users avatar
+  else if (msg.content.startsWith('!avatar')) {
     msg.reply(msg.mentions.users.first() .avatarURL);
   }
-});
 
-//!test will reply if the bot is working
-client.on('message', msg => {
-  if (msg.content === '!test') {
+  //!test will reply if the bot is working
+  else if (msg.content === '!test') {
    msg.reply('Emerald Is Online!');
   }
-});
 
-//!github will reply to the user a link to the bot github page
-client.on("message", function(msg) {
-  if(msg.content === "!github"){
+  //!github will reply to the user a link to the bot github page
+  else if (msg.content === "!github"){
     msg.reply("https://github.com/Vailyer/Emerald-Bot");
   }
-});
 
-//!help will provide the user a list of available commands  
-client.on("message", function(msg) {
-  if(msg.content === "!help"){
+  //Eval Command (will run whatever is added in discord (js))
+  if (msg.content.startsWith("/eval")) {
+    if(msg.author.id !== config.ownerID) return;
+    try {
+      const code = args.join(" ");
+      let evaled = eval(code);
+
+      if (typeof evaled !== "string")
+        evaled = require("util").inspect(evaled);
+
+      msg.channel.send(clean(evaled), {code:"xl"});
+    } catch (err) {
+      msg.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+    }
+  }
+
+  /*!help will provide the user a list of available command (TODO)
+  else if (msg.content === "!help"){
     msg.reply(help);
   }
+  */
 });
-
-
 
 client.login(config.token);
