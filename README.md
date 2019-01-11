@@ -10,7 +10,7 @@ Includes basic utilities. For now
 [<img src="https://img.shields.io/badge/npm-MomentJs-brightgreen.svg">](https://momentjs.com/)
 ### Installing
 
-INSTALL INSTRUCTIONS HERE
+//todo
 
 ## Built With
 
@@ -21,9 +21,9 @@ INSTALL INSTRUCTIONS HERE
 
 ## Authors
 
-* **Vailyer** - *Initial work* - [Vailyer](https://github.com/Vailyer)
+* **Vailyer** - [Vailyer](https://github.com/Vailyer)
 
 
 ## Acknowledgments
 
-* [Noodle](https://www.github.com/TiramisuDev) For helping me
+* [Noodle](https://www.github.com/TiramisuDev) For helping me with images.
